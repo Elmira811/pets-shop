@@ -87,6 +87,9 @@ const items = [
 
 const cardTemplate = document.querySelector('#item-template');
 const container = document.querySelector('#shop-items');
+const button = document.querySelector('#search-btn');
+const input = document.querySelector('#search-input');
+const nothingFound = document.querySelector('#nothing-found');
 
 function makeItemCard(shopItem) {
   const {title, description, tags, price, img} = shopItem;
@@ -112,4 +115,22 @@ function makeItemCard(shopItem) {
 
 items.forEach(function(shopItem) {
   container.append(makeItemCard(shopItem));
+});
+
+button.addEventListener('click', function() {
+  const text = input.value.trim().toLowerCase();
+
+  container.innerHTML = '';
+
+  const filteredItems = items.filter((item) => item.title.toLowerCase().includes(text));
+
+  if (filteredItems.length > 0) {    
+    nothingFound.textContent = '';
+    filteredItems.forEach(function(shopItem) {
+    container.append(makeItemCard(shopItem));
+    })
+  } else {
+      nothingFound.textContent = "Ничего не найдено";      
+  }
 })
+
